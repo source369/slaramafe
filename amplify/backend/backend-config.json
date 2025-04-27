@@ -1,0 +1,98 @@
+{
+  "api": {
+    "slarama": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "slaramaLambda1"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "slaramaCrud"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
+  "auth": {
+    "slaramafe": {
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
+      "serviceType": "managed"
+    }
+  },
+  "function": {
+    "slaramaCrud": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "slaramaLambda1": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_slaramaCrud_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "slaramaCrud"
+        }
+      ]
+    },
+    "AMPLIFY_function_slaramaCrud_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "slaramaCrud"
+        }
+      ]
+    },
+    "AMPLIFY_function_slaramaLambda1_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "slaramaLambda1"
+        }
+      ]
+    },
+    "AMPLIFY_function_slaramaLambda1_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "slaramaLambda1"
+        }
+      ]
+    }
+  }
+}

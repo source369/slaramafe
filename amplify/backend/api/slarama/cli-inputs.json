@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "paths": {
+    "/slarama-api": {
+      "name": "/slarama-api",
+      "lambdaFunction": "slaramaLambda1",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/slarama-crud": {
+      "name": "/slarama-crud",
+      "lambdaFunction": "slaramaCrud",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}
