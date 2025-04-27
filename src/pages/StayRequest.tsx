@@ -1,30 +1,29 @@
-import React, { useState } from 'react';
-import { Button, TextField, Typography, Box, Snackbar, Alert } from '@mui/material';
-import { submitStayRequest } from '../api/slaramaApi';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { Box, Button, TextField, Typography, Snackbar, Alert } from '@mui/material';
 
-const StayRequest = () => {
-  const [formData, setFormData] = useState({
-    monkName: '',
-    passport: '',
-    arrivalDate: '',
-    departureDate: '',
-    comments: ''
+const schema = yup.object().shape({
+  monkName: yup.string().required('Monk Name is required'),
+  passport: yup.string().required('Passport/NIC is required'),
+  arrivalDate: yup.date().required('Arrival Date is required'),
+  departureDate: yup.date().required('Departure Date is required'),
+  comments: yup.string()
+});
+
+export default function StayRequest() {
+  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm({
+    resolver: yupResolver(schema)
   });
 
-  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' });
+  const [snackbar, setSnackbar] = React.useState({ open: false, message: '', severity: 'success' as 'success' | 'error' });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-  };
-
-  const handleSubmit = async () => {
+  const onSubmit = async (data: any) => {
     try {
-      await submitStayRequest(formData);
+      console.log('Submitting stay request:', data);
       setSnackbar({ open: true, message: 'Stay request submitted successfully!', severity: 'success' });
-      setFormData({ monkName: '', passport: '', arrivalDate: '', departureDate: '', comments: '' });
+      reset();
     } catch (error) {
       console.error('Submit Error:', error);
       setSnackbar({ open: true, message: 'Failed to submit stay request.', severity: 'error' });
@@ -32,18 +31,60 @@ const StayRequest = () => {
   };
 
   return (
-    <Box maxWidth={500} mx="auto">
-      <Typography variant="h5" mb={2}>Request to Stay</Typography>
+    <Box maxWidth="600px" mx="auto" mt={4}>
+      <Typography variant="h4" mb={3}>Stay Request</Typography>
 
-      <TextField fullWidth label="Monk Name" name="monkName" value={formData.monkName} onChange={handleChange} margin="normal" />
-      <TextField fullWidth label="NIC or Passport" name="passport" value={formData.passport} onChange={handleChange} margin="normal" />
-      <TextField fullWidth type="date" label="Arrival Date" name="arrivalDate" value={formData.arrivalDate} onChange={handleChange} InputLabelProps={{ shrink: true }} margin="normal" />
-      <TextField fullWidth type="date" label="Departure Date" name="departureDate" value={formData.departureDate} onChange={handleChange} InputLabelProps={{ shrink: true }} margin="normal" />
-      <TextField fullWidth label="Comments" name="comments" value={formData.comments} onChange={handleChange} multiline rows={3} margin="normal" />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Box display="flex" flexDirection="column" gap={2}>
+          <TextField
+            label="Monk Name"
+            fullWidth
+            {...register('monkName')}
+            error={!!errors.monkName}
+            helperText={errors.monkName?.message}
+          />
 
-      <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }} onClick={handleSubmit}>
-        Submit Request
-      </Button>
+          <TextField
+            label="NIC or Passport"
+            fullWidth
+            {...register('passport')}
+            error={!!errors.passport}
+            helperText={errors.passport?.message}
+          />
+
+          <TextField
+            label="Arrival Date"
+            fullWidth
+            type="date"
+            InputLabelProps={{ shrink: true }}
+            {...register('arrivalDate')}
+            error={!!errors.arrivalDate}
+            helperText={errors.arrivalDate?.message}
+          />
+
+          <TextField
+            label="Departure Date"
+            fullWidth
+            type="date"
+            InputLabelProps={{ shrink: true }}
+            {...register('departureDate')}
+            error={!!errors.departureDate}
+            helperText={errors.departureDate?.message}
+          />
+
+          <TextField
+            label="Comments"
+            fullWidth
+            multiline
+            rows={3}
+            {...register('comments')}
+          />
+
+          <Button type="submit" variant="contained" color="primary" disabled={isSubmitting}>
+            {isSubmitting ? 'Submitting...' : 'Submit Request'}
+          </Button>
+        </Box>
+      </form>
 
       <Snackbar open={snackbar.open} autoHideDuration={4000} onClose={() => setSnackbar(prev => ({ ...prev, open: false }))}>
         <Alert severity={snackbar.severity} sx={{ width: '100%' }}>
@@ -52,6 +93,4 @@ const StayRequest = () => {
       </Snackbar>
     </Box>
   );
-};
-
-export default StayRequest;
+}
