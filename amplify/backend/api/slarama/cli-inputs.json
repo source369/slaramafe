@@ -21,13 +21,6 @@
         "setting": "open"
       }
     },
-    "/register-monk": {
-      "name": "/register-monk",
-      "lambdaFunction": "registerMonkLambda",
-      "permissions": {
-        "setting": "open"
-      }
-    },
     "/stay-request": {
       "name": "/stay-request",
       "lambdaFunction": "getStayRequestsLambda",
@@ -45,6 +38,13 @@
     "/login": {
       "name": "/login",
       "lambdaFunction": "loginLambda",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/register-monk": {
+      "name": "/register-monk",
+      "lambdaFunction": "registerMonkLambda",
       "permissions": {
         "setting": "open"
       }
