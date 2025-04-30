@@ -21,13 +21,6 @@
         "setting": "open"
       }
     },
-    "/stay-request": {
-      "name": "/stay-request",
-      "lambdaFunction": "getStayRequestsLambda",
-      "permissions": {
-        "setting": "open"
-      }
-    },
     "/dashboard-data": {
       "name": "/dashboard-data",
       "lambdaFunction": "dashboardDataLambda",
@@ -45,6 +38,13 @@
     "/register-monk": {
       "name": "/register-monk",
       "lambdaFunction": "registerMonkLambda",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/stay-request": {
+      "name": "/stay-request",
+      "lambdaFunction": "stayRequestLambda",
       "permissions": {
         "setting": "open"
       }

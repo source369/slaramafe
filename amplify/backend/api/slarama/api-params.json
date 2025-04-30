@@ -9,7 +9,7 @@
       },
       "/stay-request": {
         "cors": true,
-        "methods": ["POST", "GET"],
+        "methods": ["POST", "GET", "OPTIONS"],
         "headers": ["Content-Type"],
         "allowCredentials": false,
         "origin": "*"
