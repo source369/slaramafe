@@ -24,11 +24,12 @@
         },
         "registerMonkLambda": {
           "deploymentBucketName": "amplify-slaramafe-dev-a1147-deployment",
-          "s3Key": "amplify-builds/registerMonkLambda-4c3436794c7654737073-build.zip"
+          "s3Key": "amplify-builds/registerMonkLambda-776b7373466d58564236-build.zip",
+          "secretsPathAmplifyAppId": "drou0skccbeiz"
         },
         "stayRequestLambda": {
           "deploymentBucketName": "amplify-slaramafe-dev-a1147-deployment",
-          "s3Key": "amplify-builds/stayRequestLambda-362f47376d333145566b-build.zip"
+          "s3Key": "amplify-builds/stayRequestLambda-6f4b3656414566727864-build.zip"
         },
         "dashboardDataLambda": {
           "deploymentBucketName": "amplify-slaramafe-dev-a1147-deployment",

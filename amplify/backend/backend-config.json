@@ -24,22 +24,6 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "registerMonkLambda"
-        },
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "getStayRequestsLambda"
-        },
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
           "resourceName": "dashboardDataLambda"
         },
         {
@@ -49,6 +33,22 @@
           ],
           "category": "function",
           "resourceName": "loginLambda"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "registerMonkLambda"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "stayRequestLambda"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -99,6 +99,7 @@
     },
     "registerMonkLambda": {
       "build": true,
+      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
@@ -176,6 +177,14 @@
       ]
     },
     "AMPLIFY_function_registerMonkLambda_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "registerMonkLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_registerMonkLambda_secretsPathAmplifyAppId": {
       "usedBy": [
         {
           "category": "function",

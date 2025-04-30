@@ -1,83 +1,87 @@
 import React from 'react';
+import { Box, Button, Stack, Snackbar, Alert, TextField, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { Box, Button, TextField, Typography, Snackbar, Alert } from '@mui/material';
+import { registerMonk } from '../api/slaramaApi';
 
-const schema = yup.object().shape({
-  fullName: yup.string().required('Full Name is required'),
-  nicOrPassport: yup.string().required('NIC or Passport is required'),
-  email: yup.string().email('Invalid email').required('Email is required'),
-  phone: yup.string().required('Phone Number is required')
-});
-
-export default function RegisterMonk() {
-  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm({
-    resolver: yupResolver(schema)
-  });
-
-  const [snackbar, setSnackbar] = React.useState({ open: false, message: '', severity: 'success' as 'success' | 'error' });
+const RegisterMonk = () => {
+  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [errorSnackbar, setErrorSnackbar] = React.useState(false);
 
   const onSubmit = async (data: any) => {
     try {
-      console.log('Registered Monk:', data);
-      setSnackbar({ open: true, message: 'Monk registered successfully!', severity: 'success' });
-      reset();
-    } catch (error) {
-      console.error('Registration Error:', error);
-      setSnackbar({ open: true, message: 'Failed to register monk.', severity: 'error' });
+      const response = await registerMonk(data);
+      console.log('API Response:', response); // Add this line
+  
+      if (response.status === 200 && response.data?.monk) {
+        setOpenSnackbar(true);
+        reset();
+      } else {
+        console.warn('Unexpected API response:', response);
+        setErrorSnackbar(true);
+      }
+    } catch (error: any) {
+      console.error('Axios error:', error);
+      setErrorSnackbar(true);
     }
   };
+  
 
   return (
-    <Box maxWidth="600px" mx="auto" mt={4}>
-      <Typography variant="h4" mb={3}>Register New Monk</Typography>
-
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Box display="flex" flexDirection="column" gap={2}>
+    <Box sx={{ maxWidth: 600, mx: 'auto' }}>
+      <Typography variant="h5" mb={3}>Register Monk</Typography>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <Stack spacing={2}>
           <TextField
-            label="Full Name"
             fullWidth
-            {...register('fullName')}
-            error={!!errors.fullName}
-            helperText={errors.fullName?.message}
+            label="Name"
+            {...register('name', { required: 'Name is required' })}
+            error={!!errors.name}
+            helperText={errors.name ? (errors.name.message as string) : ''}
           />
-
           <TextField
-            label="NIC or Passport"
             fullWidth
-            {...register('nicOrPassport')}
-            error={!!errors.nicOrPassport}
-            helperText={errors.nicOrPassport?.message}
+            type="number"
+            label="Age"
+            {...register('age', { required: 'Age is required' })}
+            error={!!errors.age}
+            helperText={errors.age ? (errors.age.message as string) : ''}
           />
-
           <TextField
-            label="Email Address"
             fullWidth
-            {...register('email')}
+            label="Nationality"
+            {...register('nationality', { required: 'Nationality is required' })}
+            error={!!errors.nationality}
+            helperText={errors.nationality ? (errors.nationality.message as string) : ''}
+          />
+          <TextField
+            fullWidth
+            label="Email"
+            {...register('email', { required: 'Email is required' })}
             error={!!errors.email}
-            helperText={errors.email?.message}
+            helperText={errors.email ? (errors.email.message as string) : ''}
           />
-
-          <TextField
-            label="Phone Number"
-            fullWidth
-            {...register('phone')}
-            error={!!errors.phone}
-            helperText={errors.phone?.message}
-          />
-
-          <Button type="submit" variant="contained" color="success" disabled={isSubmitting}>
+          <Button type="submit" fullWidth variant="contained" disabled={isSubmitting}>
             {isSubmitting ? 'Registering...' : 'Register Monk'}
           </Button>
-        </Box>
+        </Stack>
       </form>
 
-      <Snackbar open={snackbar.open} autoHideDuration={4000} onClose={() => setSnackbar(prev => ({ ...prev, open: false }))}>
-        <Alert severity={snackbar.severity} sx={{ width: '100%' }}>
-          {snackbar.message}
+      {/* Success Snackbar */}
+      <Snackbar open={openSnackbar} autoHideDuration={4000} onClose={() => setOpenSnackbar(false)}>
+        <Alert onClose={() => setOpenSnackbar(false)} severity="success" sx={{ width: '100%' }}>
+          Monk Registered Successfully!
+        </Alert>
+      </Snackbar>
+
+      {/* Error Snackbar */}
+      <Snackbar open={errorSnackbar} autoHideDuration={4000} onClose={() => setErrorSnackbar(false)}>
+        <Alert onClose={() => setErrorSnackbar(false)} severity="error" sx={{ width: '100%' }}>
+          Failed to register monk. Try again.
         </Alert>
       </Snackbar>
     </Box>
   );
-}
+};
+
+export default RegisterMonk;

@@ -1,96 +1,91 @@
 import React from 'react';
+import { Box, Button, Stack, Snackbar, Alert, TextField, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { Box, Button, TextField, Typography, Snackbar, Alert } from '@mui/material';
+import axios from 'axios';
 
-const schema = yup.object().shape({
-  monkName: yup.string().required('Monk Name is required'),
-  passport: yup.string().required('Passport/NIC is required'),
-  arrivalDate: yup.date().required('Arrival Date is required'),
-  departureDate: yup.date().required('Departure Date is required'),
-  comments: yup.string()
-});
-
-export default function StayRequest() {
-  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm({
-    resolver: yupResolver(schema)
-  });
-
-  const [snackbar, setSnackbar] = React.useState({ open: false, message: '', severity: 'success' as 'success' | 'error' });
+const StayRequest = () => {
+  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [errorSnackbar, setErrorSnackbar] = React.useState(false);
 
   const onSubmit = async (data: any) => {
     try {
-      console.log('Submitting stay request:', data);
-      setSnackbar({ open: true, message: 'Stay request submitted successfully!', severity: 'success' });
-      reset();
-    } catch (error) {
-      console.error('Submit Error:', error);
-      setSnackbar({ open: true, message: 'Failed to submit stay request.', severity: 'error' });
+      const response = await axios.post(
+        'https://xec1cw1izl.execute-api.us-east-1.amazonaws.com/dev/stay-request',
+        data
+      );
+
+      if (response.status === 200 && response.data?.request) {
+        setOpenSnackbar(true);
+        reset();
+      } else {
+        console.warn('Unexpected response:', response);
+        setErrorSnackbar(true);
+      }
+    } catch (err) {
+      console.error('Stay request failed:', err);
+      setErrorSnackbar(true);
     }
   };
 
   return (
-    <Box maxWidth="600px" mx="auto" mt={4}>
-      <Typography variant="h4" mb={3}>Stay Request</Typography>
-
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Box display="flex" flexDirection="column" gap={2}>
+    <Box sx={{ maxWidth: 600, mx: 'auto' }}>
+      <Typography variant="h5" mb={3}>Stay Request</Typography>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <Stack spacing={2}>
           <TextField
+            fullWidth
             label="Monk Name"
-            fullWidth
-            {...register('monkName')}
+            {...register('monkName', { required: 'Monk Name is required' })}
             error={!!errors.monkName}
-            helperText={errors.monkName?.message}
+            helperText={errors.monkName ? (errors.monkName.message as string) : ''}
           />
-
           <TextField
-            label="NIC or Passport"
             fullWidth
-            {...register('passport')}
-            error={!!errors.passport}
-            helperText={errors.passport?.message}
-          />
-
-          <TextField
+            type="date"
             label="Arrival Date"
-            fullWidth
-            type="date"
             InputLabelProps={{ shrink: true }}
-            {...register('arrivalDate')}
+            {...register('arrivalDate', { required: 'Arrival date is required' })}
             error={!!errors.arrivalDate}
-            helperText={errors.arrivalDate?.message}
+            helperText={errors.arrivalDate ? (errors.arrivalDate.message as string) : ''}
           />
-
           <TextField
-            label="Departure Date"
             fullWidth
             type="date"
+            label="Departure Date"
             InputLabelProps={{ shrink: true }}
-            {...register('departureDate')}
+            {...register('departureDate', { required: 'Departure date is required' })}
             error={!!errors.departureDate}
-            helperText={errors.departureDate?.message}
+            helperText={errors.departureDate ? (errors.departureDate.message as string) : ''}
           />
-
           <TextField
-            label="Comments"
             fullWidth
+            label="Comments"
             multiline
             rows={3}
             {...register('comments')}
           />
-
-          <Button type="submit" variant="contained" color="primary" disabled={isSubmitting}>
+          <Button type="submit" variant="contained" disabled={isSubmitting}>
             {isSubmitting ? 'Submitting...' : 'Submit Request'}
           </Button>
-        </Box>
+        </Stack>
       </form>
 
-      <Snackbar open={snackbar.open} autoHideDuration={4000} onClose={() => setSnackbar(prev => ({ ...prev, open: false }))}>
-        <Alert severity={snackbar.severity} sx={{ width: '100%' }}>
-          {snackbar.message}
+      {/* Success Snackbar */}
+      <Snackbar open={openSnackbar} autoHideDuration={4000} onClose={() => setOpenSnackbar(false)}>
+        <Alert onClose={() => setOpenSnackbar(false)} severity="success" sx={{ width: '100%' }}>
+          Stay request submitted successfully!
+        </Alert>
+      </Snackbar>
+
+      {/* Error Snackbar */}
+      <Snackbar open={errorSnackbar} autoHideDuration={4000} onClose={() => setErrorSnackbar(false)}>
+        <Alert onClose={() => setErrorSnackbar(false)} severity="error" sx={{ width: '100%' }}>
+          Failed to submit stay request. Please try again.
         </Alert>
       </Snackbar>
     </Box>
   );
-}
+};
+
+export default StayRequest;
