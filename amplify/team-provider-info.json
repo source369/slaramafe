@@ -21,6 +21,27 @@
         "slaramaCrud": {
           "deploymentBucketName": "amplify-slaramafe-dev-a1147-deployment",
           "s3Key": "amplify-builds/slaramaCrud-674b707a323436434b4a-build.zip"
+        },
+        "registerMonkLambda": {
+          "deploymentBucketName": "amplify-slaramafe-dev-a1147-deployment",
+          "s3Key": "amplify-builds/registerMonkLambda-776b7373466d58564236-build.zip",
+          "secretsPathAmplifyAppId": "drou0skccbeiz"
+        },
+        "stayRequestLambda": {
+          "deploymentBucketName": "amplify-slaramafe-dev-a1147-deployment",
+          "s3Key": "amplify-builds/stayRequestLambda-6f4b3656414566727864-build.zip"
+        },
+        "dashboardDataLambda": {
+          "deploymentBucketName": "amplify-slaramafe-dev-a1147-deployment",
+          "s3Key": "amplify-builds/dashboardDataLambda-5a436578474f32584f37-build.zip"
+        },
+        "loginLambda": {
+          "deploymentBucketName": "amplify-slaramafe-dev-a1147-deployment",
+          "s3Key": "amplify-builds/loginLambda-6f516d3678447a595451-build.zip"
+        },
+        "getStayRequestsLambda": {
+          "deploymentBucketName": "amplify-slaramafe-dev-a1147-deployment",
+          "s3Key": "amplify-builds/getStayRequestsLambda-57794731612f45686673-build.zip"
         }
       },
       "auth": {

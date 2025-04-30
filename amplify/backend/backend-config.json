@@ -17,6 +17,38 @@
           ],
           "category": "function",
           "resourceName": "slaramaCrud"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "dashboardDataLambda"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "loginLambda"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "registerMonkLambda"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "stayRequestLambda"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -50,6 +82,27 @@
     }
   },
   "function": {
+    "dashboardDataLambda": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "getStayRequestsLambda": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "loginLambda": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "registerMonkLambda": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "slaramaCrud": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -59,9 +112,86 @@
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "stayRequestLambda": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "parameters": {
+    "AMPLIFY_function_dashboardDataLambda_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "dashboardDataLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_dashboardDataLambda_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "dashboardDataLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_getStayRequestsLambda_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getStayRequestsLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_getStayRequestsLambda_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getStayRequestsLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_loginLambda_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "loginLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_loginLambda_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "loginLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_registerMonkLambda_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "registerMonkLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_registerMonkLambda_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "registerMonkLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_registerMonkLambda_secretsPathAmplifyAppId": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "registerMonkLambda"
+        }
+      ]
+    },
     "AMPLIFY_function_slaramaCrud_deploymentBucketName": {
       "usedBy": [
         {
@@ -91,6 +221,22 @@
         {
           "category": "function",
           "resourceName": "slaramaLambda1"
+        }
+      ]
+    },
+    "AMPLIFY_function_stayRequestLambda_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "stayRequestLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_stayRequestLambda_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "stayRequestLambda"
         }
       ]
     }

@@ -20,6 +20,34 @@
       "permissions": {
         "setting": "open"
       }
+    },
+    "/dashboard-data": {
+      "name": "/dashboard-data",
+      "lambdaFunction": "dashboardDataLambda",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/login": {
+      "name": "/login",
+      "lambdaFunction": "loginLambda",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/register-monk": {
+      "name": "/register-monk",
+      "lambdaFunction": "registerMonkLambda",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/stay-request": {
+      "name": "/stay-request",
+      "lambdaFunction": "stayRequestLambda",
+      "permissions": {
+        "setting": "open"
+      }
     }
   }
 }
