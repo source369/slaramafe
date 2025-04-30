@@ -1,0 +1,33 @@
+{
+    "paths": {
+      "/register-monk": {
+        "cors": true,
+        "methods": ["POST"],
+        "headers": ["Content-Type"],
+        "allowCredentials": false,
+        "origin": "*"
+      },
+      "/stay-request": {
+        "cors": true,
+        "methods": ["POST", "GET"],
+        "headers": ["Content-Type"],
+        "allowCredentials": false,
+        "origin": "*"
+      },
+      "/dashboard-data": {
+        "cors": true,
+        "methods": ["GET"],
+        "headers": ["Content-Type"],
+        "allowCredentials": false,
+        "origin": "*"
+      },
+      "/login": {
+        "cors": true,
+        "methods": ["POST"],
+        "headers": ["Content-Type"],
+        "allowCredentials": false,
+        "origin": "*"
+      }
+    }
+  }
+  
